@@ -197,6 +197,20 @@ def get_user_list_data(boto3_session: boto3.session.Session) -> Dict:
 
 
 @timeit
+def get_signing_certificate_data(boto3_session: boto3.session.Session) -> Dict:
+    client = boto3_session.client('iam')
+
+    paginator = client.get_paginator('list_signing_certificates')
+    certificates: List[Dict] = []
+    for page in paginator.paginate():
+        certificates.extend(page['Certificates'])
+    
+    print(page)
+    print("HELLO")
+    return {'Certificates': certificates}
+
+
+@timeit
 def get_group_list_data(boto3_session: boto3.session.Session) -> Dict:
     client = boto3_session.client('iam')
     paginator = client.get_paginator('list_groups')
@@ -270,6 +284,37 @@ def load_users(
             aws_update_tag=aws_update_tag,
         )
 
+
+@timeit
+def load_certificates(
+    neo4j_session: neo4j.Session, certificates: List[Dict], current_aws_account_id: str, aws_update_tag: int,
+) -> None:
+    ingest_user = """
+    MERGE (unode:X509Certificate{username: $USERNAME})
+    ON CREATE SET unode.username = $USERNAME, unode.firstseen = timestamp()
+    SET unode.certificateid = $CERTIFICATE_ID, unode.certificatebody = $CERTIFICATE_BODY, 
+    unode.status = $STATUS, unode.uploaddate= $UPLOAD_DATE
+    WITH unode
+    MATCH (aa:AWSAccount{username: $USERNAME})
+    MERGE (aa)-[r:X509CERTIFICATE]->(unode)
+    ON CREATE SET r.firstseen = timestamp()
+    SET r.lastupdated = $aws_update_tag
+    """
+
+    # logger.info(f"Loading {len(certificates)} Signing Certificates.")
+    print("heyy")
+    for certificate in certificates:
+        print(certificate)
+        neo4j_session.run(
+            ingest_user,
+            USERNAME=certificate["UserName"],
+            CERTIFICATE_ID=certificate["CertificateId"],
+            CERTIFICATE_BODY=certificate["CertificateBody"],
+            STATUS=certificate["Status"],
+            UPLOAD_DATE=str(certificate["UploadDate"]),
+            AWS_ACCOUNT_ID=current_aws_account_id,
+            aws_update_tag=aws_update_tag,
+        )
 
 @timeit
 def load_groups(
@@ -673,6 +718,15 @@ def sync_users(
     sync_user_managed_policies(boto3_session, data, neo4j_session, aws_update_tag)
 
     run_cleanup_job('aws_import_users_cleanup.json', neo4j_session, common_job_parameters)
+
+    logger.info("TRYING TO RETRIVE SIGNING CERTIFICATES")
+
+    certificates = get_signing_certificate_data(boto3_session)
+    print(certificates)
+    load_certificates(neo4j_session, certificates['Certificates'], current_aws_account_id, aws_update_tag)
+
+
+    logger.info("Signing Certificates retrieved")
 
 
 @timeit
