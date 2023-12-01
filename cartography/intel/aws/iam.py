@@ -290,13 +290,18 @@ def load_certificates(
     neo4j_session: neo4j.Session, certificates: List[Dict], current_aws_account_id: str, aws_update_tag: int,
 ) -> None:
     ingest_user = """
-    MERGE (unode:X509Certificate{username: $USERNAME})
+    MERGE (unode:X509Certificate{certificateId: $CERTIFICATE_ID})
     ON CREATE SET unode.username = $USERNAME, unode.firstseen = timestamp()
-    SET unode.certificateid = $CERTIFICATE_ID, unode.certificatebody = $CERTIFICATE_BODY, 
-    unode.status = $STATUS, unode.uploaddate= $UPLOAD_DATE
+    SET unode.certificatebody = $CERTIFICATE_BODY, 
+    unode.status = $STATUS, unode.uploaddate= $UPLOAD_DATE, unode.lastupdated = $aws_update_tag
     WITH unode
-    MATCH (aa:AWSAccount{username: $USERNAME})
-    MERGE (aa)-[r:X509CERTIFICATE]->(unode)
+    MATCH (aa:AWSAccount{id: $AWS_ACCOUNT_ID})
+    MERGE (aa)-[r:RESOURCE]->(unode)
+    ON CREATE SET r.firstseen = timestamp()
+    SET r.lastupdated = $aws_update_tag
+    WITH unode
+    MATCH(user:AWSUser{name: $USERNAME})
+    MERGE(user)-[r:USER_HAS_X509_CERTIFICATE]->(unode)
     ON CREATE SET r.firstseen = timestamp()
     SET r.lastupdated = $aws_update_tag
     """
