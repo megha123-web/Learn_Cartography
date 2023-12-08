@@ -34,6 +34,16 @@ def get_bucket_name_from_arn(bucket_arn: str) -> str:
     """
     return bucket_arn.split(':')[-1]
 
+# def get_vault_name_from_arn(vault_arn: str) -> str:
+#     """
+#     Return the vault name from an S3 Glacier vault ARN.
+#     For example, for "arn:aws:glacier:us-east-1:123456789012:vaults/my-vault",
+#     return 'my-vault'.
+#     :param vault_arn: The S3Glacier vault's full ARN
+#     :return: The S3Glacier vault's name
+#     """
+#     return vault_arn.split(':')[-1]
+
 
 def get_short_id_from_elb_arn(alb_arn: str) -> str:
     """
@@ -111,6 +121,7 @@ TAG_RESOURCE_TYPE_MAPPINGS: Dict = {
     'rds:snapshot': {'label': 'RDSSnapshot', 'property': 'id'},
     # Buckets are the only objects in the S3 service: https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html
     's3': {'label': 'S3Bucket', 'property': 'id', 'id_func': get_bucket_name_from_arn},
+    'glacier': {'label': 'S3GlacierVault', 'property': 'arn'},
     'secretsmanager:secret': {'label': 'SecretsManagerSecret', 'property': 'id'},
     'sqs': {'label': 'SQSQueue', 'property': 'id'},
 }

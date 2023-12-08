@@ -1,2 +1,2 @@
-from cartography.cli import main 
+from cartography.cli import main
 main()

@@ -9,6 +9,7 @@ from . import eks
 from . import elasticache
 from . import elasticsearch
 from . import emr
+from . import glacier
 from . import iam
 from . import inspector
 from . import kms
@@ -45,6 +46,7 @@ from .ec2.vpc_peerings import sync_vpc_peerings
 RESOURCE_FUNCTIONS: Dict = {
     'iam': iam.sync,
     's3': s3.sync,
+    'glacier': glacier.sync,
     'dynamodb': dynamodb.sync,
     'ec2:launch_templates': sync_ec2_launch_templates,
     'ec2:autoscalinggroup': sync_ec2_auto_scaling_groups,
