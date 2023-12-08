@@ -204,7 +204,7 @@ def get_signing_certificate_data(boto3_session: boto3.session.Session) -> Dict:
     certificates: List[Dict] = []
     for page in paginator.paginate():
         certificates.extend(page['Certificates'])
-    
+
     print(page)
     print("HELLO")
     return {'Certificates': certificates}
@@ -292,7 +292,7 @@ def load_certificates(
     ingest_user = """
     MERGE (unode:X509Certificate{certificateId: $CERTIFICATE_ID})
     ON CREATE SET unode.username = $USERNAME, unode.firstseen = timestamp()
-    SET unode.certificatebody = $CERTIFICATE_BODY, 
+    SET unode.certificatebody = $CERTIFICATE_BODY,
     unode.status = $STATUS, unode.uploaddate= $UPLOAD_DATE, unode.lastupdated = $aws_update_tag
     WITH unode
     MATCH (aa:AWSAccount{id: $AWS_ACCOUNT_ID})
@@ -320,6 +320,7 @@ def load_certificates(
             AWS_ACCOUNT_ID=current_aws_account_id,
             aws_update_tag=aws_update_tag,
         )
+
 
 @timeit
 def load_groups(
@@ -729,7 +730,6 @@ def sync_users(
     certificates = get_signing_certificate_data(boto3_session)
     print(certificates)
     load_certificates(neo4j_session, certificates['Certificates'], current_aws_account_id, aws_update_tag)
-
 
     logger.info("Signing Certificates retrieved")
 
