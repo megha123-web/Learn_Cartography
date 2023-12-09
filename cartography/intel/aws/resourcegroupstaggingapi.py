@@ -34,17 +34,6 @@ def get_bucket_name_from_arn(bucket_arn: str) -> str:
     """
     return bucket_arn.split(':')[-1]
 
-# def get_vault_name_from_arn(vault_arn: str) -> str:
-#     """
-#     Return the vault name from an S3 Glacier vault ARN.
-#     For example, for "arn:aws:glacier:us-east-1:123456789012:vaults/my-vault",
-#     return 'my-vault'.
-#     :param vault_arn: The S3Glacier vault's full ARN
-#     :return: The S3Glacier vault's name
-#     """
-#     return vault_arn.split(':')[-1]
-
-
 def get_short_id_from_elb_arn(alb_arn: str) -> str:
     """
     Return the ELB name from the ARN
