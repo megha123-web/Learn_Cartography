@@ -19,10 +19,10 @@ LIST_VAULT = {
                             'Principal': '*',
                             'Action': 'glacier:*',
                             'Resource': 'arn:aws:glacier:us-east-1:672373165745:vaults/vault-1',
-                        }
-                    ]
-                }
-            })
+                        },
+                    ],
+                },
+            }),
         },
         {
             'VaultARN': 'arn:aws:glacier:us-east-1:672373165745:vaults/vault-2',
@@ -31,7 +31,7 @@ LIST_VAULT = {
             'LastInventoryDate': datetime.datetime(2023, 12, 5, 12, 15, 10, 456000).isoformat() + 'Z',
             'NumberOfArchives': 23,
             'SizeInBytes': 1245678,
-             'AccessPolicy': json.dumps({
+            'AccessPolicy': json.dumps({
                 'Policy': {
                     'Version': '2012-10-17',
                     'Statement': [
@@ -40,10 +40,10 @@ LIST_VAULT = {
                             'Principal': '*',
                             'Action': 'glacier:*',
                             'Resource': 'arn:aws:glacier:us-east-1:672373165745:vaults/vault-2',
-                        }
-                    ]
-                }
-            })
+                        },
+                    ],
+                },
+            }),
         },
         {
             'VaultARN': 'arn:aws:glacier:us-east-1:672373165745:vaults/vault-3',
@@ -52,7 +52,7 @@ LIST_VAULT = {
             'LastInventoryDate': datetime.datetime(2023, 12, 6, 8, 5, 55, 321000).isoformat() + 'Z',
             'NumberOfArchives': 8,
             'SizeInBytes': 543210,
-            'AccessPolicy': 'No vault access policy to display'
+            'AccessPolicy': 'No vault access policy to display',
         },
-    ]
+    ],
 }
