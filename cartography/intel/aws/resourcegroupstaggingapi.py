@@ -34,6 +34,7 @@ def get_bucket_name_from_arn(bucket_arn: str) -> str:
     """
     return bucket_arn.split(':')[-1]
 
+
 def get_short_id_from_elb_arn(alb_arn: str) -> str:
     """
     Return the ELB name from the ARN
