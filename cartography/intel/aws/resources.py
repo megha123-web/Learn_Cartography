@@ -12,6 +12,7 @@ from . import emr
 from . import glacier
 from . import iam
 from . import inspector
+from . import kinesis
 from . import kms
 from . import lambda_function
 from . import permission_relationships
@@ -47,6 +48,7 @@ RESOURCE_FUNCTIONS: Dict = {
     'iam': iam.sync,
     's3': s3.sync,
     'glacier': glacier.sync,
+    'kinesis': kinesis.sync,
     'dynamodb': dynamodb.sync,
     'ec2:launch_templates': sync_ec2_launch_templates,
     'ec2:autoscalinggroup': sync_ec2_auto_scaling_groups,
