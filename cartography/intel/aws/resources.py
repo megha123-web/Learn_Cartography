@@ -10,6 +10,7 @@ from . import elasticache
 from . import elasticsearch
 from . import emr
 from . import glacier
+from . import glue
 from . import iam
 from . import inspector
 from . import kinesis
@@ -48,6 +49,7 @@ RESOURCE_FUNCTIONS: Dict = {
     'iam': iam.sync,
     's3': s3.sync,
     'glacier': glacier.sync,
+    'glue': glue.sync,
     'kinesis': kinesis.sync,
     'dynamodb': dynamodb.sync,
     'ec2:launch_templates': sync_ec2_launch_templates,

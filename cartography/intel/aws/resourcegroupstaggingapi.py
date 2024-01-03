@@ -100,6 +100,7 @@ TAG_RESOURCE_TYPE_MAPPINGS: Dict = {
     'elasticmapreduce:cluster': {'label': 'EMRCluster', 'property': 'arn'},
     'es:domain': {'label': 'ESDomain', 'property': 'arn'},
     'kms:key': {'label': 'KMSKey', 'property': 'arn'},
+    'glue': {'label': 'Glue', 'property': 'arn'},
     'kinesis': {'label': 'KinesisDataStream', 'property': 'arn'},
     'kinesisvideo': {'label': 'KinesisVideoStream', 'property': 'arn'},
     'iam:group': {'label': 'AWSGroup', 'property': 'arn'},

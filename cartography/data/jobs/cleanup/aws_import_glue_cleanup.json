@@ -1,0 +1,70 @@
+{
+    "statements": [
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueJob) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueCrawler) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueDatabase) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueTable) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueConnection) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSAccount{id: $AWS_ID})-[:RESOURCE]->(n:GlueInteractiveSession) WHERE n.lastupdated <> $UPDATE_TAG WITH n LIMIT $LIMIT_SIZE DETACH DELETE (n)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSRole)-[r:ATTACHED_ROLE]->(:GlueJob) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:S3Bucket)-[r:HAS_ACCESS]->(:GlueJob) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:GlueDatabase)-[r:CONTAINS]->(:GlueTable) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:S3Bucket)-[r:HAS_ACCESS]->(:GlueDatabase) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSRole)-[r:ATTACHED_ROLE]->(:GlueCrawler) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:GlueDatabase)-[r:RESOURCE]->(:GlueCrawler) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      },
+      {
+        "query": "MATCH (:AWSRole)-[r:ATTACHED_ROLE]->(:GlueInteractiveSession) WHERE r.lastupdated <> $UPDATE_TAG WITH r LIMIT $LIMIT_SIZE DELETE (r)",
+        "iterative": true,
+        "iterationsize": 100
+      }
+    ],
+      "name": "cleanup Glue"
+    }
